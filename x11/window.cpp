@@ -365,22 +365,24 @@ namespace x11
     ev.xclient.data.l[2] = data2;
     ev.xclient.data.l[3] = data3;
 
-    XSendEvent( static_cast<Display*>( d.get() ), data, false, NoEventMask, &ev );
+    bool ret = XSendEvent( static_cast<Display*>( d.get() ), data, false, NoEventMask, &ev ) == Success;
     d.sync();
+
+    return ret;
   }
 
   bool window::send_event_char( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
   {
-    send_event<8>( d, data, type, propagate, data0, data1, data2, data3 );
+    return send_event<8>( d, data, type, propagate, data0, data1, data2, data3 );
   }
 
   bool window::send_event_short( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
   {
-    send_event<16>( d, data, type, propagate, data0, data1, data2, data3 );
+    return send_event<16>( d, data, type, propagate, data0, data1, data2, data3 );
   }
 
   bool window::send_event_long( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
   {
-    send_event<32>( d, data, type, propagate, data0, data1, data2, data3 );
+    return send_event<32>( d, data, type, propagate, data0, data1, data2, data3 );
   }
 }
