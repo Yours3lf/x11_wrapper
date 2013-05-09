@@ -14,6 +14,99 @@ namespace x11
   int display::lsb_first = LSBFirst;
   int display::msb_first = MSBFirst;
 
+  static std::string get_error( unsigned char error_code )
+  {
+    switch( error_code )
+    {
+      case BadAccess:
+        {
+          return "BadAccess";
+        }
+      case BadAlloc:
+        {
+          return "BadAlloc";
+        }
+      case BadAtom:
+        {
+          return "BadAtom";
+        }
+      case BadColor:
+        {
+          return "BadColor";
+        }
+      case BadCursor:
+        {
+          return "BadCursor";
+        }
+      case BadDrawable:
+        {
+          return "BadDrawable";
+        }
+      case BadFont:
+        {
+          return "BadFont";
+        }
+      case BadGC:
+        {
+          return "BadGC";
+        }
+      case BadIDChoice:
+        {
+          return "BadIDChoice";
+        }
+      case BadImplementation:
+        {
+          return "BadImplementation";
+        }
+      case BadLength:
+        {
+          return "BadLength";
+        }
+      case BadMatch:
+        {
+          return "BadMatch";
+        }
+      case BadName:
+        {
+          return "BadName";
+        }
+      case BadPixmap:
+        {
+          return "BadPixmap";
+        }
+      case BadRequest:
+        {
+          return "BadRequest";
+        }
+      case BadValue:
+        {
+          return "BadValue";
+        }
+      case BadWindow:
+        {
+          return "BadWindow";
+        }
+      default:
+        {
+          return "Unknown";
+        }
+    }
+  }
+
+  int custom_error_handler( Display* display, XErrorEvent* event )
+  {
+    std::cerr << "X11 error occured" << std::endl;
+    std::cerr << "Display: " << std::hex << event->display << std::endl;
+    std::cerr << "Type: " << std::dec << event->type << std::endl;
+    std::cerr << "Error code: " << get_error( event->error_code ) << std::endl;
+    std::cerr << "Minor code: " << std::dec << ( int )event->minor_code << std::endl;
+    std::cerr << "Request code: " << std::dec << ( int )event->request_code << std::endl;
+    std::cerr << "Resource id: " << std::dec << event->resourceid << std::endl;
+    std::cerr << "Serial: " << std::dec << event->serial << std::endl;
+    std::cerr << std::endl;
+    return 0;
+  }
+
   void display::open_display( const std::string& name )
   {
     data = XOpenDisplay( name.c_str() );
@@ -236,5 +329,15 @@ namespace x11
   void display::sync( bool discard )
   {
     XSync( static_cast<Display*>( data ), discard );
+  }
+
+  void display::set_error_handler( void* func )
+  {
+    typedef int ( * error_handler )( Display*, XErrorEvent* );
+
+    if( !func )
+      XSetErrorHandler( custom_error_handler );
+    else
+      XSetErrorHandler( ( error_handler )func );
   }
 }

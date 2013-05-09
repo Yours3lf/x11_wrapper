@@ -10,6 +10,7 @@ int main( int argc, char** argv )
   x11::display d;
   d.open_display();
   d.syncronize( true );
+  d.set_error_handler();
 
   std::vector<x11::pixel_format_values> pfvs;
   d.list_pixmap_formats( pfvs );
@@ -18,6 +19,14 @@ int main( int argc, char** argv )
 
   x11::window w;
   w.create_simple_window( d, d.default_root_window(), 0, 0, 300, 100 );
+
+  /**/
+  //this creates a bad drawable error
+  int x, y;
+  unsigned int wi, h, bw, de;
+  x11::window win;
+  w.get_geometry( d, 0, win, x, y, wi, h, bw, de );
+  /**/
 
   std::cout << d.display_string() << std::endl;
   std::cout << s.height_mm_of_screen() << std::endl;
@@ -93,7 +102,7 @@ int main( int argc, char** argv )
   {
     std::cout << "Current desktop: " << current_desktop[c] << std::endl;
   }
-  
+
   //clipboard input
   //std::string str = "hello world";
 

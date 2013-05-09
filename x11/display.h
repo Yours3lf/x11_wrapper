@@ -80,6 +80,8 @@ namespace x11
       void syncronize( bool onoff = false );
       void sync( bool discard = false );
       void flush();
+
+      void set_error_handler( void* func = 0 );
   };
 }
 
