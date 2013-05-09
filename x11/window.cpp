@@ -14,6 +14,9 @@ namespace x11
   int window::prop_mode_replace = PropModeReplace;
   int window::prop_mode_prepend = PropModePrepend;
   int window::prop_mode_append = PropModeAppend;
+  int window::is_unmapped = IsUnmapped;
+  int window::is_unviewable = IsUnviewable;
+  int window::is_viewable = IsViewable;
 
   void window::create_window( display d, window parent, int x, int y, unsigned int width, unsigned int height, unsigned int border_width, int depth, unsigned int win_class, void* visual, long unsigned int valuemask, void* attributes )
   {

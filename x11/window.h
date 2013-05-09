@@ -71,6 +71,9 @@ namespace x11
       static int prop_mode_replace;
       static int prop_mode_prepend;
       static int prop_mode_append;
+      static int is_unmapped;
+      static int is_unviewable;
+      static int is_viewable;
 
       window( unsigned long d = 0 ): data( d ) {}
 
