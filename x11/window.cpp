@@ -201,7 +201,7 @@ namespace x11
     root = roott;
     x = xx;
     y = yy;
-    width = width;
+    width = widtht;
     height = heightt;
     border_width = border_widtht;
     depth = deptht;
