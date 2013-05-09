@@ -172,9 +172,21 @@ namespace x11
     return ret;
   }
 
-  bool window::get_window_attributes( display d, void* attributes )
+  bool window::get_window_attributes( display d, window_attributes& attributes )
   {
-    return XGetWindowAttributes( static_cast<Display*>( d.get() ), data, static_cast<XWindowAttributes*>( attributes ) );
+    XWindowAttributes wa;
+    bool ret = XGetWindowAttributes( static_cast<Display*>( d.get() ), data, &wa );
+
+    if( ret )
+    {
+      attributes = window_attributes( wa.x, wa.y, wa.width, wa.height,
+                                      wa.border_width, wa.depth, wa.visual, wa.root, wa.c_class, wa.bit_gravity, wa.win_gravity,
+                                      wa.backing_store, wa.backing_planes, wa.backing_pixel, wa.save_under, wa.colormap,
+                                      wa.map_installed, wa.map_state, wa.all_event_masks, wa.your_event_mask, wa.do_not_propagate_mask,
+                                      wa.override_redirect, wa.screen );
+    }
+
+    return ret;
   }
 
   bool window::get_geometry( display d, long unsigned int drawable, window& root, int& x, int& y, unsigned int& width, unsigned int& height, unsigned int& border_width, unsigned int& depth )

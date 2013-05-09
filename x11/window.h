@@ -5,6 +5,60 @@
 
 namespace x11
 {
+  struct window_attributes
+  {
+    int x, y;     /* location of window */
+    int width, height;    /* width and height of window */
+    int border_width;   /* border width of window */
+    int depth;      /* depth of window */
+    void* visual;     /* the associated visual structure */
+    unsigned long root;      /* root of screen containing window */
+    int classid;      /* InputOutput, InputOnly*/
+    int bit_gravity;    /* one of the bit gravity values */
+    int win_gravity;    /* one of the window gravity values */
+    int backing_store;    /* NotUseful, WhenMapped, Always */
+    unsigned long backing_planes; /* planes to be preserved if possible */
+    unsigned long backing_pixel;  /* value to be used when restoring planes */
+    bool save_under;    /* boolean, should bits under be saved? */
+    unsigned long colormap;    /* color map to be associated with window */
+    bool map_installed;   /* boolean, is color map currently installed*/
+    int map_state;      /* IsUnmapped, IsUnviewable, IsViewable */
+    long all_event_masks;   /* set of events all people have interest in*/
+    long your_event_mask;   /* my event mask */
+    long do_not_propagate_mask; /* set of events that should not propagate */
+    bool override_redirect;   /* boolean value for override-redirect */
+    void* screen;     /* back pointer to correct screen */
+    window_attributes( int xx = 0, int yy = 0, int w = 0, int h = 0, int bw = 0, int de = 0,
+                       void* vi = 0, unsigned long ro = 0, int clid = 0, int bg = 0, int wg = 0, int bs = 0,
+                       unsigned long bap = 0, unsigned long bapi = 0, bool su = false, unsigned long cm = 0, bool mi = false,
+                       int ms = 0, long aem = 0, long yem = 0, long dnpm = 0, bool ovr = 0, void* sc = 0 )
+    {
+      x = xx;
+      y = yy;
+      width = w;
+      height = h;
+      border_width = bw;
+      depth = de;
+      visual = vi;
+      root = ro;
+      classid = clid;
+      bit_gravity = bg;
+      win_gravity = wg;
+      backing_store = bs;
+      backing_planes = bap;
+      backing_pixel = bapi;
+      save_under = su;
+      colormap = cm;
+      map_installed = mi;
+      map_state = ms;
+      all_event_masks = aem;
+      your_event_mask = yem;
+      do_not_propagate_mask = dnpm;
+      override_redirect = ovr;
+      screen = sc;
+    }
+  };
+
   class window
   {
       unsigned long data;
@@ -61,7 +115,7 @@ namespace x11
       void undefine_cursor( display d );
 
       bool query_tree( display d, window& root, window& parent, std::vector<window>& children );
-      bool get_window_attributes( display d, void* attributes = 0 );
+      bool get_window_attributes( display d, window_attributes& attributes );
       bool get_geometry( display d, unsigned long drawable, window& root, int& x, int& y, unsigned int& width, unsigned int& height, unsigned int& border_width, unsigned int& depth );
 
       bool translate_coordinates( display d, window src, window dst, int src_x, int src_y, int& dst_x, int& dst_y, window& child );
