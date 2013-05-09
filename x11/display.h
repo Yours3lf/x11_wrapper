@@ -78,6 +78,7 @@ namespace x11
       void set_close_down_mode( int cm = 0 );
 
       void syncronize( bool onoff = false );
+      void sync( bool discard = false );
       void flush();
   };
 }

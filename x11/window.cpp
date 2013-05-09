@@ -351,4 +351,36 @@ namespace x11
   {
     XSetSelectionOwner( static_cast<Display*>( d.get() ), selection.get(), data, time );
   }
+
+  template< int fmt >
+  bool send_event( display d, unsigned long data, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
+  {
+    XEvent ev = {0};
+    ev.xclient.type = ClientMessage;
+    ev.xclient.window = data;
+    ev.xclient.message_type = type.get();
+    ev.xclient.format = fmt;
+    ev.xclient.data.l[0] = data0;
+    ev.xclient.data.l[1] = data1;
+    ev.xclient.data.l[2] = data2;
+    ev.xclient.data.l[3] = data3;
+
+    XSendEvent( static_cast<Display*>( d.get() ), data, false, NoEventMask, &ev );
+    d.sync();
+  }
+
+  bool window::send_event_char( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
+  {
+    send_event<8>( d, data, type, propagate, data0, data1, data2, data3 );
+  }
+
+  bool window::send_event_short( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
+  {
+    send_event<16>( d, data, type, propagate, data0, data1, data2, data3 );
+  }
+
+  bool window::send_event_long( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
+  {
+    send_event<32>( d, data, type, propagate, data0, data1, data2, data3 );
+  }
 }

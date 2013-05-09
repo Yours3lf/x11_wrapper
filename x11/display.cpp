@@ -232,4 +232,9 @@ namespace x11
   {
     XFlush( static_cast<Display*>( data ) );
   }
+
+  void display::sync( bool discard )
+  {
+    XSync( static_cast<Display*>( data ), discard );
+  }
 }
