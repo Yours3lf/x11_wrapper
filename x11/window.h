@@ -141,9 +141,9 @@ namespace x11
       void convert_selection( display d, class atom selection, class atom target, class atom property, unsigned long time = 0 );
       void set_selection_owner( display d, class atom selection, unsigned long time = 0 );
 
-      bool send_event_char( display d, class atom type, bool propagate = false, long data0 = 0, long data1 = 0, long data2 = 0, long data3 = 0 );
-      bool send_event_short( display d, class atom type, bool propagate = false, long data0 = 0, long data1 = 0, long data2 = 0, long data3 = 0 );
-      bool send_event_long( display d, class atom type, bool propagate = false, long data0 = 0, long data1 = 0, long data2 = 0, long data3 = 0 );
+      bool send_event_char( display d, window target, class atom type, bool propagate = false, long data0 = 0, long data1 = 0, long data2 = 0, long data3 = 0, long data4 = 0 );
+      bool send_event_short( display d, window target, class atom type, bool propagate = false, long data0 = 0, long data1 = 0, long data2 = 0, long data3 = 0, long data4 = 0 );
+      bool send_event_long( display d, window target, class atom type, bool propagate = false, long data0 = 0, long data1 = 0, long data2 = 0, long data3 = 0, long data4 = 0 );
   };
 }
 

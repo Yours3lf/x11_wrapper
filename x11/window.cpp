@@ -359,36 +359,38 @@ namespace x11
   }
 
   template< int fmt >
-  bool send_event( display d, unsigned long data, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
+  bool send_event( display d, unsigned long data, unsigned long target, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3, long int data4 )
   {
     XEvent ev = {0};
     ev.xclient.type = ClientMessage;
     ev.xclient.window = data;
     ev.xclient.message_type = type.get();
+    ev.xclient.send_event = True;
     ev.xclient.format = fmt;
     ev.xclient.data.l[0] = data0;
     ev.xclient.data.l[1] = data1;
     ev.xclient.data.l[2] = data2;
     ev.xclient.data.l[3] = data3;
+    ev.xclient.data.l[4] = data4;
 
-    bool ret = XSendEvent( static_cast<Display*>( d.get() ), data, false, NoEventMask, &ev ) == Success;
+    bool ret = XSendEvent( static_cast<Display*>( d.get() ), target, false, NoEventMask, &ev ) == Success;
     d.sync();
 
     return ret;
   }
 
-  bool window::send_event_char( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
+  bool window::send_event_char( display d, window target, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3, long int data4 )
   {
-    return send_event<8>( d, data, type, propagate, data0, data1, data2, data3 );
+    return send_event<8>( d, data, target.data, type, propagate, data0, data1, data2, data3, data4 );
   }
 
-  bool window::send_event_short( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
+  bool window::send_event_short( display d, window target, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3, long int data4 )
   {
-    return send_event<16>( d, data, type, propagate, data0, data1, data2, data3 );
+    return send_event<16>( d, data, target.data, type, propagate, data0, data1, data2, data3, data4 );
   }
 
-  bool window::send_event_long( display d, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3 )
+  bool window::send_event_long( display d, window target, atom type, bool propagate, long int data0, long int data1, long int data2, long int data3, long int data4 )
   {
-    return send_event<32>( d, data, type, propagate, data0, data1, data2, data3 );
+    return send_event<32>( d, data, target.data, type, propagate, data0, data1, data2, data3, data4 );
   }
 }
