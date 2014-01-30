@@ -373,7 +373,7 @@ namespace x11
     ev.xclient.data.l[3] = data3;
     ev.xclient.data.l[4] = data4;
 
-    bool ret = XSendEvent( static_cast<Display*>( d.get() ), target, false, NoEventMask, &ev ) == Success;
+    bool ret = XSendEvent( static_cast<Display*>( d.get() ), target, false, SubstructureRedirectMask | SubstructureNotifyMask, &ev ) == Success;
     d.sync();
 
     return ret;
