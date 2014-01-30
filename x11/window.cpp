@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include "atom.h"
+#include "screen.h"
 
 #include <X11/Xlib.h>
 
@@ -61,6 +62,11 @@ namespace x11
   void window::unmap_subwindows( display d )
   {
     XUnmapSubwindows( static_cast<Display*>( d.get() ), data );
+  }
+
+  void window::withdraw_window( display d, int screen_num )
+  {
+    XWithdrawWindow( static_cast<Display*>( d.get() ), data, screen_num );
   }
 
   void window::configure_window( display d, unsigned int value_mask, void* values )

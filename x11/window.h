@@ -94,6 +94,7 @@ namespace x11
 
       void unmap_window( display d );
       void unmap_subwindows( display d );
+      void withdraw_window( display d, int screen_num = 0 );
 
       void configure_window( display d, unsigned int value_mask = 0, void* values = 0 );
       void move_window( display d, int x = 0, int y = 0 );
